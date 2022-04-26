@@ -30,9 +30,9 @@ import java.util.Set;
  * - Nom 3:
  *
  * L'entrega es farà a través d'una tasca a l'Aula Digital abans de la data que se us hagui
- * comunicat i vos recomanam que cloneu aquest repositori per seguir més fàcilment les
- * actualitzacions amb enunciats nous. Si no podeu visualitzar bé algun enunciat, assegurau-vos que
- * el vostre editor de texte estigui configurat amb codificació UTF-8.
+ * comunicat i vos recomanam que treballeu amb un fork d'aquest repositori per seguir més fàcilment
+ * les actualitzacions amb enunciats nous. Si no podeu visualitzar bé algun enunciat, assegurau-vos
+ * que el vostre editor de texte estigui configurat amb codificació UTF-8.
  */
 class Entrega {
   /*
