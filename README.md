@@ -2,7 +2,7 @@
 
 Trobareu totes les instruccions a [`Entrega.java`](Entrega.java).
 
-Si no heu utilitzat mai `git`, aquesta pot ser una bona oportunitat per
+Si no heu utilitzat mai git, aquesta pot ser una bona oportunitat per
 aprendre'n. Per aquesta entrega, és suficient que
 
 - En faceu un _fork_ (còpia) a GitHub (necessitareu una conta).
@@ -11,6 +11,6 @@ aprendre'n. Per aquesta entrega, és suficient que
 - Finalment per entregar penjau la vostra versió de `Entrega.java` a l'Aula
   Digital seguint les instruccions que vos donarem.
 
-_Utilitzar Git i GitHub és opcional per aquesta entrega, alternativament podeu
+_Utilitzar git i GitHub és opcional per aquesta entrega, alternativament podeu
 descarregar [`Entrega.java`](Entrega.java) i actualitzar-lo manualment quan hi
 hagui canvis._
