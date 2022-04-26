@@ -21,7 +21,8 @@ import java.util.Set;
  *   molt.
  *
  * Per com està plantejada aquesta entrega, no necessitau (ni podeu) utilitzar cap `import`
- * addicional, ni mètodes de classes que no estiguin ja importades.
+ * addicional, ni mètodes de classes que no estiguin ja importades. El que sí podeu fer, es definir
+ * tots els mètodes addicionals que volgueu (de manera ordenada i dins el tema que pertoqui).
  *
  * Podeu fer aquesta entrega en grups de com a màxim 3 persones, i necessitareu com a minim Java 8.
  * Per entregar, posau a continuació els vostres noms i entregau únicament aquest fitxer.
