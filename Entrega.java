@@ -112,7 +112,7 @@ class Entrega {
       );
 
       // Exercici 2
-      // ∃!y. ∀x. P(x) -> Q(y) ?
+      // ∃!x. ∀y. Q(y) -> P(x) ?
 
       assertThat(
           exercici2(
@@ -292,7 +292,7 @@ class Entrega {
               exercici3(
                   new int[] { 0, 1, 2, 3 },
                   new int[] { 0, 1 },
-                  x -> x / 2, // divisió entera, arredonint cap a 0
+                  x -> x % 2, // residu de dividir entre 2
                   0
               )
           )
