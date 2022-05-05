@@ -117,8 +117,8 @@ class Entrega {
       assertThat(
           exercici2(
               new int[] { -1, 1, 2, 3, 4 },
-              x -> true,
               x -> x < 0
+              x -> true,
           )
       );
 
