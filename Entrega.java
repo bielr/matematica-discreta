@@ -405,7 +405,7 @@ class Entrega {
               exercici2(4,2,2)
       );
       assertThat(
-              !exercici2(5,2,2)
+              !exercici2(6,2,1)
       );
       // Exercici 3
       // invers de `a` mòdul `n`
