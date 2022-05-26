@@ -254,7 +254,7 @@ class Entrega {
         for (int j = 1; j <= i; j++) {
           if (i % j == 0) {
             // i és múltiple de j, és a dir, j|i
-            divisibility.add(new int[] { i, j });
+            divisibility.add(new int[] { j, i });
           }
         }
       }
