@@ -497,6 +497,7 @@ class Entrega {
     Tema1.tests();
     Tema2.tests();
     Tema3.tests();
+    Tema4.tests();
   }
 
   static void assertThat(boolean b) {
