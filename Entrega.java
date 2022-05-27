@@ -414,6 +414,78 @@ class Entrega {
     }
   }
 
+  static class Tema4 {
+    /*
+     * Donada una matriu d'adjacencia `A` d'un graf no dirigit, retornau l'ordre i la mida del graf.
+     */
+    static int[] exercici1(int[][] A) {
+      return new int[]{}; // TO DO
+    }
+
+    /*
+     * Donada una matriu d'adjacencia `A` d'un graf no dirigit, digau si el graf es eulerià.
+     */
+    static boolean exercici2(int[][] A) {
+      return false; // TO DO
+    }
+
+    /*
+     * Donat `n` el número de fulles d'un arbre arrelat i `d` el nombre de fills dels nodes interiors,
+     * retornau el nombre total de vèrtexos de l'arbre
+     *
+     */
+    static int exercici3(int n, int d) {
+      return -1; // TO DO
+    }
+
+    /*
+     * Donada una matriu d'adjacencia `A` d'un graf connex no dirigit, digau si el graf conté algún cicle.
+     */
+    static boolean exercici4(int[][] A) {
+      return false; // TO DO
+    }
+    /*
+     * Aquí teniu alguns exemples i proves relacionades amb aquests exercicis (vegeu `main`)
+     */
+    static void tests() {
+      // Exercici 1
+      // `ordre i mida`
+
+      assertThat(
+              exercici1(new int[][] { {0, 1, 0}, {1, 0, 1}, {0,1, 0}}) == new int[] {3, 3}
+      );
+
+      assertThat(
+              exercici1(new int[][] { {0, 1, 0, 1}, {1, 0, 1, 1}, {0 , 1, 0, 1}, {1, 1, 1, 0}}) == new int[] {4, 5}
+      );
+
+      // Exercici 2
+      // `Es eulerià?`
+
+      assertThat(
+              exercici2(new int[][] { {0, 1, 1}, {1, 0, 1}, {1, 1, 0}})
+      );
+      assertThat(
+              !exercici2(new int[][] { {0, 1, 0}, {1, 0, 1}, {0,1, 0}})
+      );
+      // Exercici 3
+      // `Quants de nodes té l'arbre?`
+      assertThat(exercici3(5, 2) == 9);
+      assertThat(exercici3(7, 3) == 10);
+
+      // Exercici 4
+      // `Conté algún cicle?`
+      assertThat(
+              !exercici4(new int[][] { {0, 1, 1}, {1, 0, 1}, {1, 1, 0}})
+      );
+      assertThat(
+              exercici4(new int[][] { {0, 1, 0}, {1, 0, 1}, {0, 1, 0}})
+      );
+
+    }
+  }
+
+
   /*
    * Aquest mètode `main` conté alguns exemples de paràmetres i dels resultats que haurien de donar
    * els exercicis. Podeu utilitzar-los de guia i també en podeu afegir d'altres (no els tendrem en
@@ -425,6 +497,7 @@ class Entrega {
     Tema1.tests();
     Tema2.tests();
     Tema3.tests();
+    Tema4.tests();
   }
 
   static void assertThat(boolean b) {
