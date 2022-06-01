@@ -476,10 +476,10 @@ class Entrega {
       // Exercici 4
       // `Conté algún cicle?`
       assertThat(
-              !exercici4(new int[][] { {0, 1, 1}, {1, 0, 1}, {1, 1, 0}})
+              exercici4(new int[][] { {0, 1, 1}, {1, 0, 1}, {1, 1, 0}})
       );
       assertThat(
-              exercici4(new int[][] { {0, 1, 0}, {1, 0, 1}, {0, 1, 0}})
+              !exercici4(new int[][] { {0, 1, 0}, {1, 0, 1}, {0, 1, 0}})
       );
 
     }
