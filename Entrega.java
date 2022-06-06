@@ -430,7 +430,7 @@ class Entrega {
     }
 
     /*
-     * Donat `n` el número de fulles d'un arbre arrelat i `d` el nombre de fills dels nodes interiors,
+     * Donat `n` el número de fulles d'un arbre arrelat i `d` el nombre de fills dels nodes interiors i de l'arrel,
      * retornau el nombre total de vèrtexos de l'arbre
      *
      */
