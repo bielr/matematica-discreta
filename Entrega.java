@@ -137,7 +137,7 @@ class Entrega {
 
       assertThat(
           !exercici3(
-              new int[] { 3, 4, 5, 6, 7, 8 },
+              new int[] { 1 },
               (x, z) -> z % x == 0,
               (y, z) -> z % y == 1
           )
