@@ -92,7 +92,7 @@ class Entrega {
       assertThat(
           exercici1(
               new int[] { 2, 3, 5, 6 },
-              x -> x == 3,
+              x -> x != 4,
               (x, y) -> x == y
           )
       );
@@ -118,7 +118,7 @@ class Entrega {
 
       assertThat(
           !exercici2(
-              new int[] { -1, 1, 2, 3, 4 },
+              new int[] { -2, -1, 1, 2, 3, 4 },
               y -> y < 0,
               (x, y) -> x * y == 1
           )
@@ -137,8 +137,8 @@ class Entrega {
 
       assertThat(
           !exercici3(
-              new int[] { 1 },
-              (x, z) -> z % x == 0,
+              new int[] { 2, 3 },
+              (x, z) -> z % x == 1,
               (y, z) -> z % y == 1
           )
       );
@@ -313,7 +313,7 @@ class Entrega {
             int05,
             x -> (x + 3) % 6
           )
-          == 1,
+          == 1
       );
     }
 
