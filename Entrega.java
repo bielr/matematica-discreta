@@ -295,7 +295,7 @@ class Entrega {
             int05,
             x -> x / 4
           )
-          == 8
+          == 0
       );
 
       assertThat(
