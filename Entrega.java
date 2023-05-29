@@ -370,8 +370,8 @@ class Entrega {
     }
 
     /*
-     * Donat un arbre arrelat (dirigit, suposau que l'arrel es el vèrtex 0), trobau-ne el diàmetre.
-     * Suposau que totes les arestes tenen pes 1.
+     * Donat un arbre arrelat (dirigit, suposau que l'arrel es el vèrtex 0), trobau-ne el diàmetre
+     * del graf subjacent. Suposau que totes les arestes tenen pes 1.
      */
     static int exercici4(int[][] g) {
       return -1; // TO DO
