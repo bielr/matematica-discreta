@@ -563,6 +563,7 @@ class Entrega {
      * De fet, no doneu per suposat que pogueu tractar res més gran que el resultat.
      *
      * No podeu utilitzar `long` per solucionar aquest problema. Necessitareu l'exercici 3a.
+     * No, tampoc podeu utilitzar `double`.
      */
     static int exercici3b(int n) {
       return -1; // TO DO
