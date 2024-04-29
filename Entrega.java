@@ -169,7 +169,7 @@ class Entrega {
 
       assertThat(
           !exercici4(
-            new int[] { 1, 2, 3, 4, 5 },
+            new int[] { 2, 3, 4, 5 },
             (x, z) -> x*z == 1,
             (y, z) -> y*z == 2
           )
