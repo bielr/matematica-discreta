@@ -374,6 +374,128 @@ class Entrega {
     }
   }
 
+  /*
+   * Aquí teniu els exercicis del Tema 3 (Grafs).
+   *
+   * Els (di)grafs vendran donats com llistes d'adjacència (és a dir, tractau-los com diccionaris
+   * d'adjacència on l'índex és la clau i els vèrtexos estan numerats de 0 a n-1). Per exemple,
+   * podem donar el graf cicle d'ordre 3 com:
+   *
+   * int[][] c3dict = {
+   *   {1, 2}, // veïns de 0
+   *   {0, 2}, // veïns de 1
+   *   {0, 1}  // veïns de 2
+   * };
+   *
+   * **NOTA: Els exercicis d'aquest tema conten doble**
+   */
+  static class Tema3 {
+    /*
+     * Determinau si el graf és connex. Podeu suposar que `g` no és dirigit.
+     */
+    static boolean exercici1(int[][] g) {
+      return false; // TO DO
+    }
+
+    /*
+     * Donat un tauler d'escacs d'amplada `w` i alçada `h`, determinau quin és el mínim nombre de
+     * moviments necessaris per moure un cavall de la casella `i` a la casella `j`.
+     *
+     * Les caselles estan numerades de `0` a `w*h-1` per files. Per exemple, si w=5 i h=2, el tauler
+     * és:
+     *   0 1 2 3 4
+     *   5 6 7 8 9
+     *
+     * Retornau el nombre mínim de moviments, o -1 si no és possible arribar-hi.
+     */
+    static int exercici2(int w, int h, int i, int j) {
+      return -1; // TO DO
+    }
+
+    /*
+     * Donat un arbre arrelat (graf dirigit `g`, amb arrel `r`), decidiu si el vèrtex `u` apareix
+     * abans (o igual) que el vèrtex `v` al recorregut en preordre de l'arbre.
+     */
+    static boolean exercici3(int[][] g, int r, int u, int v) {
+      return false; // TO DO
+    }
+
+    /*
+     * Donat un recorregut en preordre (per exemple, el primer vèrtex que hi apareix és `preord[0]`)
+     * i el grau de cada vèrtex (per exemple, el vèrtex `i` té grau `d[i]`), trobau l'altura de
+     * l'arbre corresponent.
+     *
+     * L'altura d'un arbre arrelat és la major distància de l'arrel a les fulles.
+     */
+    static int exercici4(int[] preord, int[] d) {
+      return -1; // TO DO
+    }
+
+    /*
+     * Aquí teniu alguns exemples i proves relacionades amb aquests exercicis (vegeu `main`)
+     */
+    static void tests() {
+      // Exercici 1
+      // G connex?
+
+      final int[][] B2 = { {}, {} };
+
+      final int[][] C3 = { {1, 2}, {0, 2}, {0, 1} };
+
+      final int[][] C3D = { {1}, {2}, {0} };
+
+      assertThat(exercici1(C3));
+      assertThat(!exercici1(B2));
+
+      // Exercici 2
+      // Moviments de cavall
+
+      // Taulell 4x3. Moviments de 0 a 11: 3.
+      // 0  1   2   3
+      // 4  5   6   7
+      // 8  9  10  11
+      assertThat(exercici2(4, 3, 0, 11) == 3);
+
+      // Taulell 4x3. Moviments de 0 a 2: (impossible).
+      // 0 1 2
+      // 3 4 5
+      assertThat(exercici2(3, 2, 0, 2) == -1);
+
+      // Exercici 3
+      // u apareix abans que v al recorregut en preordre (o u=v)
+
+      final int[][] T1 = {
+        {1, 2, 3, 4},
+        {5},
+        {6, 7, 8},
+        {},
+        {9},
+        {},
+        {},
+        {},
+        {},
+        {10, 11},
+        {},
+        {}
+      };
+
+      assertThat(exercici3(T1, 0, 5, 3));
+      assertThat(!exercici3(T1, 0, 6, 2));
+
+      // Exercici 4
+      // Altura de l'arbre donat el recorregut en preordre
+
+      final int[] P1 = { 0, 1, 5, 2, 6, 7, 8, 3, 4, 9, 10, 11 };
+      final int[] D1 = { 4, 1, 3, 0, 1, 0, 0, 0, 0, 2,  0,  0 };
+
+      final int[] P2 = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+      final int[] D2 = { 2, 0, 2, 0, 2, 0, 2, 0, 0 };
+
+      assertThat(exercici4(P1, D1) == 3);
+      assertThat(exercici4(P2, D2) == 4);
+    }
+  }
+
   /**
    * Aquest mètode `main` conté alguns exemples de paràmetres i dels resultats que haurien de donar
    * els exercicis. Podeu utilitzar-los de guia i també en podeu afegir d'altres (no els tendrem en
