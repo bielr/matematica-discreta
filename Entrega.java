@@ -506,6 +506,7 @@ class Entrega {
   public static void main(String[] args) {
     Tema1.tests();
     Tema2.tests();
+    Tema3.tests();
   }
 
   /// Si b és cert, no fa res. Si b és fals, llança una excepció (AssertionError).
