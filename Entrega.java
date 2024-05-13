@@ -450,13 +450,13 @@ class Entrega {
       // Exercici 2
       // Moviments de cavall
 
-      // Taulell 4x3. Moviments de 0 a 11: 3.
+      // Tauler 4x3. Moviments de 0 a 11: 3.
       // 0  1   2   3
       // 4  5   6   7
       // 8  9  10  11
       assertThat(exercici2(4, 3, 0, 11) == 3);
 
-      // Taulell 4x3. Moviments de 0 a 2: (impossible).
+      // Tauler 3x2. Moviments de 0 a 2: (impossible).
       // 0 1 2
       // 3 4 5
       assertThat(exercici2(3, 2, 0, 2) == -1);
