@@ -496,6 +496,93 @@ class Entrega {
     }
   }
 
+  /*
+   * Aquí teniu els exercicis del Tema 4 (Aritmètica).
+   *
+   * En aquest tema no podeu:
+   *  - Utilitzar la força bruta per resoldre equacions: és a dir, provar tots els nombres de 0 a n
+   *    fins trobar el que funcioni.
+   *  - Utilitzar long, float ni double.
+   *
+   * Si implementau algun dels exercicis així, tendreu un 0 d'aquell exercici.
+   */
+  static class Tema4 {
+    /*
+     * Calculau el mínim comú múltiple de `a` i `b`.
+     */
+    static int exercici1(int a, int b) {
+      return -1; // TO DO
+    }
+
+    /*
+     * Trobau totes les solucions de l'equació
+     *
+     *   a·x ≡ b (mod n)
+     *
+     * donant els seus representants entre 0 i n-1.
+     *
+     * Podeu suposar que `n > 1`. Recordau que no no podeu utilitzar la força bruta.
+     */
+    static int[] exercici2(int a, int b, int n) {
+      return new int[] {}; // TO DO
+    }
+
+    /*
+     * Donats `a != 0`, `b != 0`, `c`, `d`, `m > 1`, `n > 1`, determinau si el sistema
+     *
+     *   a·x ≡ c (mod m)
+     *   b·x ≡ d (mod n)
+     *
+     * té solució.
+     */
+    static boolean exercici3(int a, int b, int c, int d, int m, int n) {
+      return false; // TO DO
+    }
+
+    /*
+     * Donats `n` un enter, `k > 0` enter, i `p` un nombre primer, retornau el residu de dividir n^k
+     * entre p.
+     *
+     * Alerta perquè és possible que n^k sigui massa gran com per calcular-lo directament.
+     * De fet, assegurau-vos de no utilitzar cap valor superior a max{n, p²}.
+     *
+     * Anau alerta també abusant de la força bruta, la vostra implementació hauria d'executar-se en
+     * qüestió de segons independentment de l'entrada.
+     */
+    static int exercici4(int n, int k, int p) {
+      return -1; // TO DO
+    }
+
+    /*
+     * Aquí teniu alguns exemples i proves relacionades amb aquests exercicis (vegeu `main`)
+     */
+    static void tests() {
+      // Exercici 1
+      // mcm(a, b)
+
+      assertThat(exercici1(35, 77) == 5*7*11);
+      assertThat(exercici1(-8, 12) == 24);
+
+      // Exercici 2
+      // Solucions de a·x ≡ b (mod n)
+
+      assertThat(Arrays.equals(exercici2(2, 2, 4), new int[] { 1, 3 }));
+      assertThat(Arrays.equals(exercici2(3, 2, 4), new int[] { 2 }));
+
+      // Exercici 3
+      // El sistema a·x ≡ c (mod m), b·x ≡ d (mod n) té solució?
+
+      assertThat(exercici3(3, 2, 2, 2, 5, 4));
+      assertThat(!exercici3(3, 2, 2, 2, 10, 4));
+
+      // Exercici 4
+      // n^k mod p
+
+      assertThat(exercici4(2018, 2018, 5) == 4);
+      assertThat(exercici4(-2147483646, 2147483645, 679389209) == 145738906);
+    }
+  }
+
   /**
    * Aquest mètode `main` conté alguns exemples de paràmetres i dels resultats que haurien de donar
    * els exercicis. Podeu utilitzar-los de guia i també en podeu afegir d'altres (no els tendrem en
@@ -507,6 +594,7 @@ class Entrega {
     Tema1.tests();
     Tema2.tests();
     Tema3.tests();
+    Tema4.tests();
   }
 
   /// Si b és cert, no fa res. Si b és fals, llança una excepció (AssertionError).
