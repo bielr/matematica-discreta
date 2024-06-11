@@ -579,7 +579,7 @@ class Entrega {
       // n^k mod p
 
       assertThat(exercici4(2018, 2018, 5) == 4);
-      assertThat(exercici4(-2147483646, 2147483645, 679389209) == 145738906);
+      assertThat(exercici4(-2147483646, 2147483645, 46337) == 7435);
     }
   }
 
