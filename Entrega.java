@@ -124,10 +124,11 @@ class Entrega {
    * Aquí teniu els exercicis del Tema 2 (Conjunts).
    *
    * Per senzillesa tractarem els conjunts com arrays (sense elements repetits). Per tant, un
-   * conjunt de conjunts d'enters tendrà tipus int[][].
+   * conjunt de conjunts d'enters tendrà tipus int[][]. Podeu donar per suposat que tots els
+   * arrays que representin conjunts i us venguin per paràmetre estan ordenats de menor a major.
    *
    * Les relacions també les representarem com arrays de dues dimensions, on la segona dimensió
-   * només té dos elements. Per exemple
+   * només té dos elements. L'array estarà ordenat lexicogràficament. Per exemple
    *   int[][] rel = {{0,0}, {0,1}, {1,1}, {2,2}};
    * i també donarem el conjunt on està definida, per exemple
    *   int[] a = {0,1,2};
