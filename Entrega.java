@@ -453,7 +453,7 @@ class Entrega {
     Tema4.tests();
   }
 
-  // Informa sobre el resultat de p.test(), juntament amb quin tema, exercici i test es correspon.
+  // Informa sobre el resultat de p, juntament amb quin tema, exercici i test es correspon.
   static void test(int tema, int exercici, int test, BooleanSupplier p) {
     try {
       if (p.getAsBoolean())
