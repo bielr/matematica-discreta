@@ -1,179 +1,122 @@
 import java.lang.AssertionError;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 /*
- * Aquesta entrega consisteix en implementar tots els mètodes annotats amb "// TODO". L'enunciat de
- * cada un d'ells és al comentari de la seva signatura i exemples del seu funcionament als mètodes
- * `Tema1.tests`, `Tema2.tests`, etc.
+ * Aquesta entrega consisteix en implementar tots els mètodes anomenats "exerciciX". Ara mateix la
+ * seva implementació consisteix en llançar `UnsupportedOperationException`, ho heu de canviar així
+ * com els aneu fent.
  *
- * L'avaluació consistirà en:
+ * Criteris d'avaluació:
  *
- * - Si el codi no compila, la nota del grup serà un 0.
+ * - Si el codi no compila tendreu un 0.
  *
- * - Si heu fet cap modificació que no sigui afegir un mètode, afegir proves als mètodes "tests()" o
- *   implementar els mètodes annotats amb "// TODO", la nota del grup serà un 0.
+ * - Les úniques modificacions que podeu fer al codi són:
+ *    + Afegir un mètode (dins el tema que el necessiteu)
+ *    + Afegir proves a un mètode "tests()"
+ *    + Òbviament, implementar els mètodes que heu d'implementar ("exerciciX")
+ *   Si feu una modificació que no sigui d'aquesta llista, tendreu un 0.
  *
- * - Principalment, la nota dependrà del correcte funcionament dels mètodes implemnetats (provant
+ * - Principalment, la nota dependrà del correcte funcionament dels mètodes implementats (provant
  *   amb diferents entrades).
  *
  * - Tendrem en compte la neteja i organització del codi. Un estandard que podeu seguir és la guia
- *   d'estil de Google per Java: https://google.github.io/styleguide/javaguide.html . Algunes
- *   consideracions importants:
- *    + Entregau amb la mateixa codificació (UTF-8) i finals de línia (LF, no CR+LF)
+ *   d'estil de Google per Java: https://google.github.io/styleguide/javaguide.html . Per exemple:
+ *    + IMPORTANT: Aquesta entrega està codificada amb UTF-8 i finals de línia LF.
  *    + Indentació i espaiat consistent
  *    + Bona nomenclatura de variables
  *    + Declarar les variables el més aprop possible al primer ús (és a dir, evitau blocs de
  *      declaracions).
  *    + Convé utilitzar el for-each (for (int x : ...)) enlloc del clàssic (for (int i = 0; ...))
- *      sempre que no necessiteu l'índex del recorregut.
+ *      sempre que no necessiteu l'índex del recorregut. Igualment per while si no és necessari.
  *
  * Per com està plantejada aquesta entrega, no necessitau (ni podeu) utilitzar cap `import`
  * addicional, ni qualificar classes que no estiguin ja importades. El que sí podeu fer és definir
  * tots els mètodes addicionals que volgueu (de manera ordenada i dins el tema que pertoqui).
  *
  * Podeu fer aquesta entrega en grups de com a màxim 3 persones, i necessitareu com a minim Java 10.
- * Per entregar, posau a continuació els vostres noms i entregau únicament aquest fitxer.
- * - Nom 1:
- * - Nom 2:
- * - Nom 3:
+ * Per entregar, posau els noms i cognoms de tots els membres del grup a l'array `Entrega.NOMS` que
+ * està definit a la línia 53.
  *
  * L'entrega es farà a través d'una tasca a l'Aula Digital que obrirem abans de la data que se us
- * hagui comunicat i vos recomanam que treballeu amb un fork d'aquest repositori per seguir més
- * fàcilment les actualitzacions amb enunciats nous. Si no podeu visualitzar bé algun enunciat,
- * assegurau-vos de que el vostre editor de texte estigui configurat amb codificació UTF-8.
+ * hagui comunicat. Si no podeu visualitzar bé algun enunciat, assegurau-vos de que el vostre editor
+ * de texte estigui configurat amb codificació UTF-8.
  */
 class Entrega {
+  static final String[] NOMS = {};
+
   /*
    * Aquí teniu els exercicis del Tema 1 (Lògica).
    *
    * La majoria dels mètodes reben de paràmetre l'univers (representat com un array) i els predicats
    * adients (per exemple, `Predicate<Integer> p`). Per avaluar aquest predicat, si `x` és un
    * element de l'univers, podeu fer-ho com `p.test(x)`, que té com resultat un booleà (true si
-   * `P(x)` és cert). Els predicats de dues variables són de tipus `BiPredicate<Integer, Integer>` i
-   * similarment s'avaluen com `p.test(x, y)`.
-   *
-   * En cada un d'aquests exercicis (excepte el primer) us demanam que donat l'univers i els
-   * predicats retorneu `true` o `false` segons si la proposició donada és certa (suposau que
-   * l'univers és suficientment petit com per poder provar tots els casos que faci falta).
+   * `P(x)` és cert).
    */
   static class Tema1 {
     /*
-     * Donat n > 1, en quants de casos (segons els valors de veritat de les proposicions p1,...,pn)
-     * la proposició (...((p1 -> p2) -> p3) -> ...) -> pn és certa?
+     * Determinau si l'expressió és una tautologia o no:
      *
-     * Vegeu el mètode Tema1.tests() per exemples.
+     * (((vars[0] ops[0] vars[1]) ops[1] vars[2]) ops[2] vars[3]) ...
+     *
+     * Aquí, vars.length == ops.length+1, i cap dels dos arrays és buid. Podeu suposar que els
+     * identificadors de les variables van de 0 a N-1, i tenim N variables diferents (mai més de 20
+     * variables).
+     *
+     * Cada ops[i] pot ser: CONJ, DISJ, IMPL, NAND.
+     *
+     * Retornau:
+     *   1 si és una tautologia
+     *   0 si és una contradicció
+     *   -1 en qualsevol altre cas.
+     *
+     * Vegeu els tests per exemples.
      */
-    static int exercici1(int n) {
-      return 0; // TODO
+    static final char CONJ = '∧';
+    static final char DISJ = '∨';
+    static final char IMPL = '→';
+    static final char NAND = '.';
+
+    static int exercici1(char[] ops, int[] vars) {
+      throw new UnsupportedOperationException("pendent");
     }
 
     /*
-     * És cert que ∀x : P(x) -> ∃!y : Q(x,y) ?
+     * Amb l'univers i els predicats p i q donats, returnau true si la següent proposició és certa.
+     *
+     * (∀x : P(x)) <-> (∃!x : Q(x))
      */
-    static boolean exercici2(int[] universe, Predicate<Integer> p, BiPredicate<Integer, Integer> q) {
-      return false; // TODO
+    static boolean exercici2(int[] universe, Predicate<Integer> p, Predicate<Integer> q) {
+      throw new UnsupportedOperationException("pendent");
     }
 
-    /*
-     * És cert que ∃x : ∀y : Q(x, y) -> P(x) ?
-     */
-    static boolean exercici3(int[] universe, Predicate<Integer> p, BiPredicate<Integer, Integer> q) {
-      return false; // TODO
-    }
-
-    /*
-     * És cert que ∃x : ∃!y : ∀z : P(x,z) <-> Q(y,z) ?
-     */
-    static boolean exercici4(int[] universe, BiPredicate<Integer, Integer> p, BiPredicate<Integer, Integer> q) {
-      return false; // TODO
-    }
-
-    /*
-     * Aquí teniu alguns exemples i proves relacionades amb aquests exercicis (vegeu `main`)
-     */
     static void tests() {
       // Exercici 1
+      // Taules de veritat
 
-      // p1 -> p2 és cert exactament a 3 files
-      // p1 p2
-      // 0  0  <-
-      // 0  1  <-
-      // 1  0
-      // 1  1  <-
-      assertThat(exercici1(2) == 3);
+      // Tautologia: ((p0 → p2) ∨ p1) ∨ p0
+      test(1, 1, 1, () -> exercici1(new char[] { IMPL, DISJ, DISJ }, new int[] { 0, 2, 1, 0 }) == 1);
 
-      // (p1 -> p2) -> p3 és cert exactament a 5 files
-      // p1 p2 p3
-      // 0  0  0
-      // 0  0  1  <-
-      // 0  1  0
-      // 0  1  1  <-
-      // 1  0  0  <-
-      // 1  0  1  <-
-      // 1  1  0
-      // 1  1  1  <-
-      assertThat(exercici1(3) == 5);
+      // Contradicció: (p0 . p0) ∧ p0
+      test(1, 1, 2, () -> exercici1(new char[] { NAND, CONJ }, new int[] { 0, 0, 0 }) == 0);
 
       // Exercici 2
-      // ∀x : P(x) -> ∃!y : Q(x,y)
-      assertThat(
-          exercici2(
-            new int[] { 1, 2, 3 },
-            x -> x % 2 == 0,
-            (x, y) -> x+y >= 5
-          )
-      );
+      // Equivalència
 
-      assertThat(
-          !exercici2(
-            new int[] { 1, 2, 3 },
-            x -> x < 3,
-            (x, y) -> x-y > 0
-          )
-      );
+      test(1, 2, 1, () -> {
+        return exercici2(new int[] { 1, 2, 3 }, (x) -> x == 0, (x) -> x == 0);
+      });
 
-      // Exercici 3
-      // És cert que ∃x : ∀y : Q(x, y) -> P(x) ?
-      assertThat(
-          exercici3(
-            new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-            x -> x % 3 != 0,
-            (x, y) -> y % x == 0
-          )
-      );
-
-      assertThat(
-          exercici3(
-            new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-            x -> x % 4 != 0,
-            (x, y) -> (x*y) % 4 != 0
-          )
-      );
-
-      // Exercici 4
-      // És cert que ∃x : ∃!y : ∀z : P(x,z) <-> Q(y,z) ?
-      assertThat(
-          exercici4(
-            new int[] { 0, 1, 2, 3, 4, 5 },
-            (x, z) -> x*z == 1,
-            (y, z) -> y*z == 2
-          )
-      );
-
-      assertThat(
-          !exercici4(
-            new int[] { 2, 3, 4, 5 },
-            (x, z) -> x*z == 1,
-            (y, z) -> y*z == 2
-          )
-      );
+      test(1, 2, 2, () -> {
+        return exercici2(new int[] { 1, 2, 3 }, (x) -> x >= 1, (x) -> x % 2 == 0);
+      });
     }
   }
 
@@ -192,60 +135,52 @@ class Entrega {
    * utilitzar si la necessitau).
    *
    * Les funcions f : A -> B (on A i B son subconjunts dels enters) les representam o bé amb el seu
-   * graf o amb un objecte de tipus Function<Integer, Integer>. Sempre donarem el domini int[] a, el
-   * codomini int[] b. En el cas de tenir un objecte de tipus Function<Integer, Integer>, per aplicar
-   * f a x, és a dir, "f(x)" on x és d'A i el resultat f.apply(x) és de B, s'escriu f.apply(x).
+   * graf o bé amb un objecte de tipus Function<Integer, Integer>. Sempre donarem el domini int[] a
+   * i el codomini int[] b. En el cas de tenir un objecte de tipus Function<Integer, Integer>, per
+   * aplicar f a x, és a dir, "f(x)" on x és d'A i el resultat f.apply(x) és de B, s'escriu
+   * f.apply(x).
    */
   static class Tema2 {
     /*
-     * Calculau el nombre d'elements del conjunt (a u b) × (a \ c)
+     * Trobau el nombre de particions diferents del conjunt `a`, que podeu suposar que no és buid.
      *
-     * Podeu soposar que `a`, `b` i `c` estan ordenats de menor a major.
+     * Pista: Cercau informació sobre els nombres de Stirling.
      */
-    static int exercici1(int[] a, int[] b, int[] c) {
-      return -1; // TODO
+    static int exercici1(int[] a) {
+      throw new UnsupportedOperationException("pendent");
     }
 
     /*
-     * La clausura d'equivalència d'una relació és el resultat de fer-hi la clausura reflexiva, simètrica i
-     * transitiva simultàniament, i, per tant, sempre és una relació d'equivalència.
+     * Trobau el cardinal de la relació d'ordre parcial sobre `a` més petita que conté `rel` (si
+     * existeix). En altres paraules, el cardinal de la seva clausura reflexiva, transitiva i
+     * antisimètrica.
      *
-     * Trobau el cardinal d'aquesta clausura.
-     *
-     * Podeu soposar que `a` i `rel` estan ordenats de menor a major (`rel` lexicogràficament).
+     * Si no existeix, retornau -1.
      */
     static int exercici2(int[] a, int[][] rel) {
-      return -1; // TODO
+      throw new UnsupportedOperationException("pendent");
     }
 
     /*
-     * Comprovau si la relació `rel` és un ordre total sobre `a`. Si ho és retornau el nombre
-     * d'arestes del seu diagrama de Hasse. Sino, retornau -2.
-     *
-     * Podeu soposar que `a` i `rel` estan ordenats de menor a major (`rel` lexicogràficament).
+     * Donada una relació d'ordre parcial `rel` definida sobre `a` i un subconjunt `x` de `a`,
+     * retornau:
+     * - L'ínfim de `x` si existeix i `op` és false
+     * - El suprem de `x` si existeix i `op` és true
+     * - null en qualsevol altre cas
      */
-    static int exercici3(int[] a, int[][] rel) {
-      return -1; // TODO
-    }
-
-
-    /*
-     * Comprovau si les relacions `rel1` i `rel2` són els grafs de funcions amb domini i codomini
-     * `a`. Si ho son, retornau el graf de la composició `rel2 ∘ rel1`. Sino, retornau null.
-     *
-     * Podeu soposar que `a`, `rel1` i `rel2` estan ordenats de menor a major (les relacions,
-     * lexicogràficament).
-     */
-    static int[][] exercici4(int[] a, int[][] rel1, int[][] rel2) {
-      return new int[][] {}; // TODO
+    static Integer exercici3(int[] a, int[][] rel, int[] x, boolean op) {
+      throw new UnsupportedOperationException("pendent");
     }
 
     /*
-     * Comprovau si la funció `f` amb domini `dom` i codomini `codom` té inversa. Si la té, retornau
-     * el seu graf (el de l'inversa). Sino, retornau null.
+     * Donada una funció `f` de `a` a `b`, retornau:
+     *  - El graf de la seva inversa (si existeix)
+     *  - Sinó, el graf d'una inversa seva per l'esquerra (si existeix)
+     *  - Sinó, el graf d'una inversa seva per la dreta (si existeix)
+     *  - Sinó, null.
      */
-    static int[][] exercici5(int[] dom, int[] codom, Function<Integer, Integer> f) {
-      return new int[][] {}; // TODO
+    static int[][] exercici4(int[] a, int[] b, Function<Integer, Integer> f) {
+      throw new UnsupportedOperationException("pendent");
     }
 
     /*
@@ -253,85 +188,74 @@ class Entrega {
      */
     static void tests() {
       // Exercici 1
-      // |(a u b) × (a \ c)|
+      // Nombre de particions
 
-      assertThat(
-          exercici1(
-            new int[] { 0, 1, 2 },
-            new int[] { 1, 2, 3 },
-            new int[] { 0, 3 }
-          )
-          == 8
-      );
-
-      assertThat(
-          exercici1(
-            new int[] { 0, 1 },
-            new int[] { 0 },
-            new int[] { 0 }
-          )
-          == 2
-      );
+      test(2, 1, 1, () -> exercici1(new int[] { 1 }) == 1);
+      test(2, 1, 2, () -> exercici1(new int[] { 1, 2, 3 }) == 5);
 
       // Exercici 2
-      // nombre d'elements de la clausura d'equivalència
+      // Clausura d'ordre parcial
 
-      final int[] int08 = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+      final int[] INT02 = { 0, 1, 2 };
 
-      assertThat(exercici2(int08, generateRel(int08, (x, y) -> y == x + 1)) == 81);
-
-      final int[] int123 = { 1, 2, 3 };
-
-      assertThat(exercici2(int123, new int[][] { {1, 3} }) == 5);
+      test(2, 2, 1, () -> exercici2(INT02, new int[][] { {0, 1}, {1, 2} }) == 6);
+      test(2, 2, 2, () -> exercici2(INT02, new int[][] { {0, 1}, {1, 0}, {1, 2} }) == -1);
 
       // Exercici 3
-      // Si rel és un ordre total, retornar les arestes del diagrama de Hasse
+      // Ínfims i suprems
 
-      final int[] int05 = { 0, 1, 2, 3, 4, 5 };
+      final int[] INT15 = { 1, 2, 3, 4, 5 };
+      final int[][] DIV15 = generateRel(INT15, (n, m) -> m % n == 0);
+      final Integer ONE = 1;
 
-      assertThat(exercici3(int05, generateRel(int05, (x, y) -> x >= y)) == 5);
-      assertThat(exercici3(int08, generateRel(int05, (x, y) -> x <= y)) == -2);
+      test(2, 3, 1, () -> ONE.equals(exercici3(INT15, DIV15, new int[] { 2, 3 }, false)));
+      test(2, 3, 2, () -> exercici3(INT15, DIV15, new int[] { 2, 3 }, true) == null);
 
       // Exercici 4
-      // Composició de grafs de funcions (null si no ho son)
+      // Inverses
 
-      assertThat(
-          exercici4(
-            int05,
-            generateRel(int05, (x, y) -> x*x == y),
-            generateRel(int05, (x, y) -> x == y)
-          )
-          == null
-      );
+      final int[] INT05 = { 0, 1, 2, 3, 4, 5 };
 
+      test(2, 4, 1, () -> {
+        var inv = exercici4(INT05, INT02, (x) -> x/2);
 
-      var ex4test2 = exercici4(
-          int05,
-          generateRel(int05, (x, y) -> x + y == 5),
-          generateRel(int05, (x, y) -> y == (x + 1) % 6)
-        );
+        if (inv == null)
+          return false;
 
-      assertThat(
-          Arrays.deepEquals(
-            lexSorted(ex4test2),
-            generateRel(int05, (x, y) -> y == (5 - x + 1) % 6)
-          )
-      );
+        inv = lexSorted(inv);
 
-      // Exercici 5
-      // trobar l'inversa (null si no existeix)
+        if (inv.length != INT02.length)
+          return false;
 
-      assertThat(exercici5(int05, int08, x -> x + 3) == null);
+        for (int i = 0; i < INT02.length; i++) {
+          if (inv[i][0] != i || inv[i][1]/2 != i)
+            return false;
+        }
 
-      assertThat(
-          Arrays.deepEquals(
-            lexSorted(exercici5(int08, int08, x -> 8 - x)),
-            generateRel(int08, (x, y) -> y == 8 - x)
-          )
-      );
+        return true;
+      });
+
+      test(2, 4, 2, () -> {
+        var inv = exercici4(INT02, INT05, (x) -> x);
+
+        if (inv == null)
+          return false;
+
+        inv = lexSorted(inv);
+
+        if (inv.length != INT05.length)
+          return false;
+
+        for (int i = 0; i < INT02.length; i++) {
+          if (inv[i][0] != i || inv[i][1] != i)
+            return false;
+        }
+
+        return true;
+      });
     }
 
-    /**
+    /*
      * Ordena lexicogràficament un array de 2 dimensions
      * Per exemple:
      *  arr = {{1,0}, {2,2}, {0,1}}
@@ -346,7 +270,7 @@ class Entrega {
       return arr2;
     }
 
-    /**
+    /*
      * Genera un array int[][] amb els elements {a, b} (a de as, b de bs) que satisfàn pred.test(a, b)
      * Per exemple:
      *   as = {0, 1}
@@ -368,7 +292,7 @@ class Entrega {
       return rel.toArray(new int[][] {});
     }
 
-    /// Especialització de generateRel per a = b
+    // Especialització de generateRel per as = bs
     static int[][] generateRel(int[] as, BiPredicate<Integer, Integer> pred) {
       return generateRel(as, as, pred);
     }
@@ -379,120 +303,117 @@ class Entrega {
    *
    * Els (di)grafs vendran donats com llistes d'adjacència (és a dir, tractau-los com diccionaris
    * d'adjacència on l'índex és la clau i els vèrtexos estan numerats de 0 a n-1). Per exemple,
-   * podem donar el graf cicle d'ordre 3 com:
+   * podem donar el graf cicle no dirigit d'ordre 3 com:
    *
    * int[][] c3dict = {
    *   {1, 2}, // veïns de 0
    *   {0, 2}, // veïns de 1
    *   {0, 1}  // veïns de 2
    * };
-   *
-   * **NOTA: Els exercicis d'aquest tema conten doble**
    */
   static class Tema3 {
     /*
-     * Determinau si el graf és connex. Podeu suposar que `g` no és dirigit.
+     * Determinau si el graf `g` (no dirigit) té cicles.
      */
     static boolean exercici1(int[][] g) {
-      return false; // TO DO
+      throw new UnsupportedOperationException("pendent");
     }
 
     /*
-     * Donat un tauler d'escacs d'amplada `w` i alçada `h`, determinau quin és el mínim nombre de
-     * moviments necessaris per moure un cavall de la casella `i` a la casella `j`.
-     *
-     * Les caselles estan numerades de `0` a `w*h-1` per files. Per exemple, si w=5 i h=2, el tauler
-     * és:
-     *   0 1 2 3 4
-     *   5 6 7 8 9
-     *
-     * Retornau el nombre mínim de moviments, o -1 si no és possible arribar-hi.
+     * Determinau si els dos grafs són isomorfs. Podeu suposar que cap dels dos té ordre major que
+     * 10.
      */
-    static int exercici2(int w, int h, int i, int j) {
-      return -1; // TO DO
+    static boolean exercici2(int[][] g1, int[][] g2) {
+      throw new UnsupportedOperationException("pendent");
     }
 
     /*
-     * Donat un arbre arrelat (graf dirigit `g`, amb arrel `r`), decidiu si el vèrtex `u` apareix
-     * abans (o igual) que el vèrtex `v` al recorregut en preordre de l'arbre.
+     * Determinau si el graf `g` (no dirigit) és un arbre. Si ho és, retornau el seu recorregut en
+     * postordre desde el vèrtex `r`. Sinó, retornau null;
+     *
+     * En cas de ser un arbre, assumiu que l'ordre dels fills vé donat per l'array de veïns de cada
+     * vèrtex.
      */
-    static boolean exercici3(int[][] g, int r, int u, int v) {
-      return false; // TO DO
+    static int[] exercici3(int[][] g, int r) {
+      throw new UnsupportedOperationException("pendent");
     }
 
     /*
-     * Donat un recorregut en preordre (per exemple, el primer vèrtex que hi apareix és `preord[0]`)
-     * i el grau de cada vèrtex (per exemple, el vèrtex `i` té grau `d[i]`), trobau l'altura de
-     * l'arbre corresponent.
+     * Suposau que l'entrada és un mapa com el següent, donat com String per files (vegeu els tests)
      *
-     * L'altura d'un arbre arrelat és la major distància de l'arrel a les fulles.
+     *   _____________________________________
+     *  |          #       #########      ####|
+     *  |       O  # ###   #########  ##  ####|
+     *  |    ####### ###   #########  ##      |
+     *  |    ####  # ###   #########  ######  |
+     *  |    ####    ###              ######  |
+     *  |    ######################## ##      |
+     *  |    ####                     ## D    |
+     *  |_____________________________##______|
+     *
+     * Els límits del mapa els podeu considerar com els límits de l'array/String, no fa falta que
+     * cerqueu els caràcters "_" i "|", i a més podeu suposar que el mapa és rectangular.
+     *
+     * Donau el nombre mínim de caselles que s'han de recorrer per anar de l'origen "O" fins al
+     * destí "D" amb les següents regles:
+     *  - No es pot sortir dels límits del mapa
+     *  - No es pot passar per caselles "#"
+     *  - No es pot anar en diagonal
+     *
+     * Si és impossible, retornau -1.
      */
-    static int exercici4(int[] preord, int[] d) {
-      return -1; // TO DO
+    static int exercici4(char[][] mapa) {
+      throw new UnsupportedOperationException("pendent");
     }
 
     /*
      * Aquí teniu alguns exemples i proves relacionades amb aquests exercicis (vegeu `main`)
      */
     static void tests() {
-      // Exercici 1
-      // G connex?
 
-      final int[][] B2 = { {}, {} };
-
+      final int[][] D2 = { {}, {} };
       final int[][] C3 = { {1, 2}, {0, 2}, {0, 1} };
 
-      final int[][] C3D = { {1}, {2}, {0} };
+      final int[][] T1 = { {1, 2}, {0}, {0} };
+      final int[][] T2 = { {1}, {0, 2}, {1} };
 
-      assertThat(exercici1(C3));
-      assertThat(!exercici1(B2));
+      // Exercici 1
+      // G té cicles?
+
+      test(3, 1, 1, () -> !exercici1(D2));
+      test(3, 1, 2, () -> exercici1(C3));
 
       // Exercici 2
-      // Moviments de cavall
+      // Isomorfisme de grafs
 
-      // Tauler 4x3. Moviments de 0 a 11: 3.
-      // 0  1   2   3
-      // 4  5   6   7
-      // 8  9  10  11
-      assertThat(exercici2(4, 3, 0, 11) == 3);
-
-      // Tauler 3x2. Moviments de 0 a 2: (impossible).
-      // 0 1 2
-      // 3 4 5
-      assertThat(exercici2(3, 2, 0, 2) == -1);
+      test(3, 2, 1, () -> exercici2(T1, T2));
+      test(3, 2, 1, () -> !exercici2(T1, C3));
 
       // Exercici 3
-      // u apareix abans que v al recorregut en preordre (o u=v)
+      // Postordre
 
-      final int[][] T1 = {
-        {1, 2, 3, 4},
-        {5},
-        {6, 7, 8},
-        {},
-        {9},
-        {},
-        {},
-        {},
-        {},
-        {10, 11},
-        {},
-        {}
-      };
-
-      assertThat(exercici3(T1, 0, 5, 3));
-      assertThat(!exercici3(T1, 0, 6, 2));
+      test(3, 3, 1, () -> exercici3(C3, 1) == null);
+      test(3, 3, 2, () -> Arrays.equals(exercici3(T1, 0), new int[] { 1, 2, 0 }));
 
       // Exercici 4
-      // Altura de l'arbre donat el recorregut en preordre
+      // Laberint
 
-      final int[] P1 = { 0, 1, 5, 2, 6, 7, 8, 3, 4, 9, 10, 11 };
-      final int[] D1 = { 4, 1, 3, 0, 1, 0, 0, 0, 0, 2,  0,  0 };
+      test(3, 4, 1, () -> {
+        return -1 == exercici4(new char[][] {
+            " #O".toCharArray(),
+            "D# ".toCharArray(),
+            " # ".toCharArray(),
+        });
+      });
 
-      final int[] P2 = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-      final int[] D2 = { 2, 0, 2, 0, 2, 0, 2, 0, 0 };
-
-      assertThat(exercici4(P1, D1) == 3);
-      assertThat(exercici4(P2, D2) == 4);
+      test(3, 4, 2, () -> {
+        return 8 == exercici4(new char[][] {
+            "###D".toCharArray(),
+            "O # ".toCharArray(),
+            " ## ".toCharArray(),
+            "    ".toCharArray(),
+        });
+      });
     }
   }
 
@@ -507,100 +428,45 @@ class Entrega {
    * Si implementau algun dels exercicis així, tendreu un 0 d'aquell exercici.
    */
   static class Tema4 {
-    /*
-     * Calculau el mínim comú múltiple de `a` i `b`.
-     */
-    static int exercici1(int a, int b) {
-      return -1; // TO DO
-    }
+    // Els penjarem més envant
 
-    /*
-     * Trobau totes les solucions de l'equació
-     *
-     *   a·x ≡ b (mod n)
-     *
-     * donant els seus representants entre 0 i n-1.
-     *
-     * Podeu suposar que `n > 1`. Recordau que no no podeu utilitzar la força bruta.
-     */
-    static int[] exercici2(int a, int b, int n) {
-      return new int[] {}; // TO DO
-    }
-
-    /*
-     * Donats `a != 0`, `b != 0`, `c`, `d`, `m > 1`, `n > 1`, determinau si el sistema
-     *
-     *   a·x ≡ c (mod m)
-     *   b·x ≡ d (mod n)
-     *
-     * té solució.
-     */
-    static boolean exercici3(int a, int b, int c, int d, int m, int n) {
-      return false; // TO DO
-    }
-
-    /*
-     * Donats `n` un enter, `k > 0` enter, i `p` un nombre primer, retornau el residu de dividir n^k
-     * entre p.
-     *
-     * Alerta perquè és possible que n^k sigui massa gran com per calcular-lo directament.
-     * De fet, assegurau-vos de no utilitzar cap valor superior a max{n, p²}.
-     *
-     * Anau alerta també abusant de la força bruta, la vostra implementació hauria d'executar-se en
-     * qüestió de segons independentment de l'entrada.
-     */
-    static int exercici4(int n, int k, int p) {
-      return -1; // TO DO
-    }
-
-    /*
-     * Aquí teniu alguns exemples i proves relacionades amb aquests exercicis (vegeu `main`)
-     */
     static void tests() {
-      // Exercici 1
-      // mcm(a, b)
-
-      assertThat(exercici1(35, 77) == 5*7*11);
-      assertThat(exercici1(-8, 12) == 24);
-
-      // Exercici 2
-      // Solucions de a·x ≡ b (mod n)
-
-      assertThat(Arrays.equals(exercici2(2, 2, 4), new int[] { 1, 3 }));
-      assertThat(Arrays.equals(exercici2(3, 2, 4), new int[] { 2 }));
-
-      // Exercici 3
-      // El sistema a·x ≡ c (mod m), b·x ≡ d (mod n) té solució?
-
-      assertThat(exercici3(3, 2, 2, 2, 5, 4));
-      assertThat(!exercici3(3, 2, 2, 2, 10, 4));
-
-      // Exercici 4
-      // n^k mod p
-
-      assertThat(exercici4(2018, 2018, 5) == 4);
-      assertThat(exercici4(-2147483646, 2147483645, 46337) == 7435);
     }
   }
 
-  /**
+  /*
    * Aquest mètode `main` conté alguns exemples de paràmetres i dels resultats que haurien de donar
    * els exercicis. Podeu utilitzar-los de guia i també en podeu afegir d'altres (no els tendrem en
    * compte, però és molt recomanable).
    *
-   * Podeu aprofitar el mètode `assertThat` per comprovar fàcilment que un valor sigui `true`.
+   * Podeu aprofitar el mètode `test` per comprovar fàcilment que un valor sigui `true`.
    */
   public static void main(String[] args) {
+    System.out.println("---- Tema 1 ----");
     Tema1.tests();
+    System.out.println("---- Tema 2 ----");
     Tema2.tests();
+    System.out.println("---- Tema 3 ----");
     Tema3.tests();
+    System.out.println("---- Tema 4 ----");
     Tema4.tests();
   }
 
-  /// Si b és cert, no fa res. Si b és fals, llança una excepció (AssertionError).
-  static void assertThat(boolean b) {
-    if (!b)
-      throw new AssertionError();
+  // Informa sobre el resultat de p.test(), juntament amb quin tema, exercici i test es correspon.
+  static void test(int tema, int exercici, int test, BooleanSupplier p) {
+    try {
+      if (p.getAsBoolean())
+        System.out.printf("Tema %d, exercici %d, test %d: OK\n", tema, exercici, test);
+      else
+        System.out.printf("Tema %d, exercici %d, test %d: Error\n", tema, exercici, test);
+    } catch (Exception e) {
+      if (e instanceof UnsupportedOperationException && "pendent".equals(e.getMessage())) {
+        System.out.printf("Tema %d, exercici %d, test %d: Pendent\n", tema, exercici, test);
+      } else {
+        System.out.printf("Tema %d, exercici %d, test %d: Excepció\n", tema, exercici, test);
+        e.printStackTrace();
+      }
+    }
   }
 }
 
