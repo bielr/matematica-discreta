@@ -54,11 +54,6 @@ class Entrega {
 
   /*
    * Aquí teniu els exercicis del Tema 1 (Lògica).
-   *
-   * La majoria dels mètodes reben de paràmetre l'univers (representat com un array) i els predicats
-   * adients (per exemple, `Predicate<Integer> p`). Per avaluar aquest predicat, si `x` és un
-   * element de l'univers, podeu fer-ho com `p.test(x)`, que té com resultat un booleà (true si
-   * `P(x)` és cert).
    */
   static class Tema1 {
     /*
@@ -89,7 +84,12 @@ class Entrega {
     }
 
     /*
-     * Amb l'univers i els predicats p i q donats, returnau true si la següent proposició és certa.
+     * Aquest mètode té de paràmetre l'univers (representat com un array) i els predicats
+     * adients `p` i `q`. Per avaluar aquest predicat, si `x` és un element de l'univers, podeu
+     * fer-ho com `p.test(x)`, que té com resultat un booleà (true si `P(x)` és cert).
+     *
+     * Amb l'univers i els predicats `p` i `q` donats, returnau true si la següent proposició és
+     * certa.
      *
      * (∀x : P(x)) <-> (∃!x : Q(x))
      */
