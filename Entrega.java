@@ -428,9 +428,63 @@ class Entrega {
    * Si implementau algun dels exercicis així, tendreu un 0 d'aquell exercici.
    */
   static class Tema4 {
-    // Els penjarem més envant
+    /*
+     * Primer, codificau el missatge en blocs de longitud 2 amb codificació ASCII. Després encriptau
+     * el missatge utilitzant xifrat RSA amb la clau pública donada.
+     *
+     * Per obtenir els codis ASCII del String podeu utilitzar `msg.getBytes()`.
+     *
+     * Podeu suposar que:
+     * - La longitud de `msg` és múltiple de 2
+     * - El valor de tots els caràcters de `msg` està entre 32 i 127.
+     * - La clau pública (n, e) és de la forma vista a les transparències.
+     * - n és major que 2¹⁴, i n² és menor que Integer.MAX_VALUE
+     *
+     * Pista: https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+     */
+    static int[] exercici1(String msg, int n, int e) {
+      throw new UnsupportedOperationException("pendent");
+    }
+
+    /*
+     * Primer, desencriptau el missatge utilitzant xifrat RSA amb la clau pública donada. Després
+     * descodificau el missatge en blocs de longitud 2 amb codificació ASCII (igual que l'exercici
+     * anterior, però al revés).
+     *
+     * Per construir un String a partir d'un array de bytes podeu fer servir el constructor
+     * `new String(byte[])`. Si heu de factoritzar algun nombre, ho podeu fer per força bruta.
+     *
+     * També podeu suposar que:
+     * - La longitud del missatge original és múltiple de 2
+     * - El valor de tots els caràcters originals estava entre 32 i 127.
+     * - La clau pública (n, e) és de la forma vista a les transparències.
+     * - n és major que 2¹⁴, i n² és menor que Integer.MAX_VALUE
+     */
+    static String exercici2(int[] m, int n, int e) {
+      throw new UnsupportedOperationException("pendent");
+    }
 
     static void tests() {
+      // Exercici 1
+      // Codificar i encriptar
+      test(4, 1, 1, () -> {
+        var n = 2*8209;
+        var e = 5;
+
+        var encr = exercici1("Patata", n, e);
+        return Arrays.equals(encr, new int[] { 4907, 4785, 4785 });
+      });
+
+      // Exercici 2
+      // Desencriptar i decodificar
+      test(4, 2, 1, () -> {
+        var n = 2*8209;
+        var e = 5;
+
+        var encr = new int[] { 4907, 4785, 4785 };
+        var decr = exercici2(encr, n, e);
+        return "Patata".equals(decr);
+      });
     }
   }
 
