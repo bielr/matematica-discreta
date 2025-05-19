@@ -1,4 +1,3 @@
-import java.lang.AssertionError;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -388,7 +387,7 @@ class Entrega {
       // Isomorfisme de grafs
 
       test(3, 2, 1, () -> exercici2(T1, T2));
-      test(3, 2, 1, () -> !exercici2(T1, C3));
+      test(3, 2, 2, () -> !exercici2(T1, C3));
 
       // Exercici 3
       // Postordre
