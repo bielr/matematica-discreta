@@ -49,7 +49,7 @@ import java.util.stream.IntStream;
  * de texte estigui configurat amb codificació UTF-8.
  */
 class Entrega {
-  static final String[] NOMS = {};
+  static final String[] NOMS = {"Anderson","Pablo","Carlos"};
 
   /*
    * Aquí teniu els exercicis del Tema 1 (Lògica).
@@ -77,9 +77,58 @@ class Entrega {
     static final char DISJ = '∨';
     static final char IMPL = '→';
     static final char NAND = '.';
+    //Aplicamos una operacion logica binaria entre a y b
+    static boolean aplica(char op, boolean a, boolean b) {
+      switch (op) {
+       //∧
+        case CONJ: return a && b;
+       //∨
+        case DISJ: return a || b;
+       //→
+        case IMPL: return !a || b;
+      //.
+        case NAND: return !(a && b);
+        default: throw new IllegalArgumentException("Operador desconegut: " + op);
+      }
+    }
 
     static int exercici1(char[] ops, int[] vars) {
-      throw new UnsupportedOperationException("pendent");
+      // Nombre de variables (máximo índice de 'vars' + 1)
+      int n = Arrays.stream(vars).max().orElse(0) + 1;
+  // Total de combinaciones de verdad posibles: 2^n
+      int total = 1 << n;
+
+  // Marcas para saber si siempre es cierto o siempre es falso
+      boolean siempreCierto = true;
+      boolean siempreFalso = true;
+
+ // Iteramos por cada combinación de valores de verdad (truth table)
+      for (int mask = 0; mask < total; mask++) {
+        boolean[] val = new boolean[n];
+        for (int i = 0; i < n; i++) {
+      // Genera la máscara booleana para cada variable
+          val[i] = (mask & (1 << i)) != 0;
+        }
+
+// Evaluamos la expresión lógica de izquierda a derecha
+        boolean res = val[vars[0]];
+        for (int i = 0; i < ops.length; i++) {
+          res = aplica(ops[i], res, val[vars[i + 1]]);
+        }
+    // Verificamos si el resultado cambia según la asignación de valores
+        //No es contradiccion
+        if (res) {
+          siempreFalso = false;
+       //No es tautologia
+        } else {
+          siempreCierto = false;
+        }
+      }
+      //Es una tautologia
+      if (siempreCierto) return 1;
+      //Es una contradiccion
+      if (siempreFalso) return 0;
+      return -1;
     }
 
     /*
@@ -93,7 +142,22 @@ class Entrega {
      * (∀x : P(x)) <-> (∃!x : Q(x))
      */
     static boolean exercici2(int[] universe, Predicate<Integer> p, Predicate<Integer> q) {
-      throw new UnsupportedOperationException("pendent");
+    // Banderas para los dos lados de la implicación, suposamos que todos cumplen P al    
+    // principio
+      boolean totsCompleixenP = true;
+    // Contador para verificar cuántos elementos cumplen Q(x)
+      int compteQ = 0;
+
+      for (int x : universe) {
+        // Si encontramos uno que NO cumple P(x), el ∀x P(x) es falso
+        if (!p.test(x)) totsCompleixenP = false;
+        // Si Q(x) se cumple, aumentamos el contador
+        if (q.test(x)) compteQ++;
+      }
+
+    // Comprobamos unicidad: exactamente un compleix Q(x)
+      return (totsCompleixenP && compteQ == 1) || (!totsCompleixenP && compteQ != 1);
+
     }
 
     static void tests() {
@@ -102,16 +166,25 @@ class Entrega {
 
       // Tautologia: ((p0 → p2) ∨ p1) ∨ p0
       test(1, 1, 1, () -> exercici1(new char[] { IMPL, DISJ, DISJ }, new int[] { 0, 2, 1, 0 }) == 1);
-
       // Contradicció: (p0 . p0) ∧ p0
       test(1, 1, 2, () -> exercici1(new char[] { NAND, CONJ }, new int[] { 0, 0, 0 }) == 0);
+      // Test 2: (p0 . p0) ∧ p0 és una contradicción → esperamos 0
+      test(1, 1, 2, () -> exercici1(new char[] { NAND, CONJ }, new int[] { 0, 0, 0 }) == 0);
+      // Test 3: (p0 ∧ p1) → p0 no es ni tautología ni contradicción → esperamos -1 (Error)
+      test(1, 1, 3, () -> exercici1(new char[] { CONJ, IMPL }, new int[] { 0, 1, 0 }) == -1);      
 
       // Exercici 2
       // Equivalència
-
+      // Test 1: P(x) ≡ x == 0, Q(x) ≡ x == 0 sobre {1,2,3}
+      // ∀x P(x) es falso (ningun x vale 0) y ∃!x Q(x) tambien es falso (ningun x Q)
+      // false <-> false = true → esperamos true
       test(1, 2, 1, () -> {
         return exercici2(new int[] { 1, 2, 3 }, (x) -> x == 0, (x) -> x == 0);
       });
+      
+      // Test 2: P(x) ≡ x >= 1 (todos cumplen P); Q(x) ≡ x % 2 == 0 (hay 1 y 2, dos elementos)
+      // ∀x P(x) = true, ∃!x Q(x) = false (tenemos +1 de Q) → true <-> false = false →    
+      // esperamos false
 
       test(1, 2, 2, () -> {
         return exercici2(new int[] { 1, 2, 3 }, (x) -> x >= 1, (x) -> x % 2 == 0);
@@ -147,7 +220,21 @@ class Entrega {
      * Pista: Cercau informació sobre els nombres de Stirling.
      */
     static int exercici1(int[] a) {
-      throw new UnsupportedOperationException("pendent");
+    int n= a.length;
+    // Creamos una tabla de números de Bell hasta n (suma de Stirling 2a especie)
+    int[] bell = new int[n + 1];
+    bell[0] = 1;
+
+    for (int i = 1; i <= n; i++) {
+      int[] next = new int[n + 1];
+      for (int j = 0; j < i; j++) {
+        next[j + 1] += bell[j];
+        next[j] += j * bell[j];
+      }
+      bell = next;
+    }
+      
+    return bell[n];
     }
 
     /*
@@ -158,7 +245,37 @@ class Entrega {
      * Si no existeix, retornau -1.
      */
     static int exercici2(int[] a, int[][] rel) {
-      throw new UnsupportedOperationException("pendent");
+    int n = a.length;
+    boolean[][] mat = new boolean[n][n];
+
+    // Copiamos la relación inicial
+    for (int[] pair : rel) {
+      mat[pair[0]][pair[1]] = true;
+    }
+
+    // Clausura reflexiva
+    for (int i = 0; i < n; i++) mat[i][i] = true;
+
+    // Clausura transitiva (algoritmo de Floyd-Warshall)
+    for (int k = 0; k < n; k++)
+      for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+          if (mat[i][k] && mat[k][j]) mat[i][j] = true;
+
+    // Verificamos antisimetría: si aRy y yRa entonces a == y
+    for (int i = 0; i < n; i++)
+      for (int j = 0; j < n; j++)
+        if (i != j && mat[i][j] && mat[j][i])
+          return -1;
+
+    // Contamos el número de pares verdaderos
+    int count = 0;
+    for (int i = 0; i < n; i++)
+      for (int j = 0; j < n; j++)
+        if (mat[i][j]) count++;
+
+    return count;
+
     }
 
     /*
@@ -169,8 +286,53 @@ class Entrega {
      * - null en qualsevol altre cas
      */
     static Integer exercici3(int[] a, int[][] rel, int[] x, boolean op) {
-      throw new UnsupportedOperationException("pendent");
+    Set<Integer> relSet = new HashSet<>();
+    Map<Integer, Set<Integer>> dominates = new HashMap<>();
+
+    for (int i = 0; i < a.length; i++) {
+    dominates.put(a[i], new HashSet<>());
     }
+
+    for (int i = 0; i < rel.length; i++) {
+    int from = rel[i][0];
+    int to = rel[i][1];
+    dominates.get(from).add(to);
+    }
+
+    List<Integer> candidates = new ArrayList<>();
+
+    for (int i = 0; i < a.length; i++) {
+    int m = a[i];
+    boolean ok = true;
+
+    for (int j = 0; j < x.length; j++) {
+        int xi = x[j];
+      
+        //Supremo: xi ≤ m
+        if (op) {
+            if (!dominates.get(xi).contains(m) && xi != m) {
+                ok = false;
+                break;
+            }
+          //Infimo: m ≤ xi
+        } else {
+            if (!dominates.get(m).contains(xi) && m != xi) {
+                ok = false;
+                break;
+            }
+        }
+    }
+
+    if (ok) {
+        candidates.add(m);
+    }
+}
+
+    if (candidates.isEmpty()) return null;
+    return op ? Collections.min(candidates) : Collections.max(candidates);
+    // La línea de arriba lo que hace es que si op es true, devolvemos el mínimo de los candidatos (supremo)
+    // Y en el caso de que si op es false, devolvemos el máximo de los candidatos (ínfimo)
+}
 
     /*
      * Donada una funció `f` de `a` a `b`, retornau:
@@ -180,7 +342,57 @@ class Entrega {
      *  - Sinó, null.
      */
     static int[][] exercici4(int[] a, int[] b, Function<Integer, Integer> f) {
-      throw new UnsupportedOperationException("pendent");
+    var graf = new ArrayList<int[]>();
+    var fwd = new HashMap<Integer, Integer>();
+    var rev = new HashMap<Integer, Integer>();
+
+    for (int x : a) {
+      int y = f.apply(x);
+      fwd.put(x, y);
+      if (rev.containsKey(y)) {
+        //Marca conflicto
+        rev.put(y, -1);
+      } else {
+        rev.put(y, x);
+      }
+    }
+
+    boolean isInjective = true;
+    for (var e : rev.entrySet()) {
+      if (e.getValue() == -1) {
+        isInjective = false;
+        break;
+      }
+    }
+
+    boolean isSurjective = true;
+    for (int y : b) {
+      if (!rev.containsKey(y)) {
+        isSurjective = false;
+        break;
+      }
+    }
+
+    if (isInjective && isSurjective) {
+      for (int y : b) {
+        graf.add(new int[] { y, rev.get(y) });
+      }
+    } else if (isInjective) { // inversa per l'esquerra
+      for (var e : rev.entrySet()) {
+        if (e.getValue() != -1) {
+          graf.add(new int[] { e.getKey(), e.getValue() });
+        }
+      }
+    } else if (isSurjective) { // inversa per la dreta
+      for (int x : a) {
+        graf.add(new int[] { f.apply(x), x });
+      }
+    } else {
+      return null;
+    }
+
+    // Ordenamos lexicográficamente
+    return lexSorted(graf.toArray(new int[0][]));
     }
 
     /*
@@ -189,8 +401,9 @@ class Entrega {
     static void tests() {
       // Exercici 1
       // Nombre de particions
-
+      test(2, 1, 1, () -> exercici1(new int[] { }) ==1);
       test(2, 1, 1, () -> exercici1(new int[] { 1 }) == 1);
+      test(2, 1, 3, () -> exercici1(new int[] { 1, 2}) == 2);
       test(2, 1, 2, () -> exercici1(new int[] { 1, 2, 3 }) == 5);
 
       // Exercici 2
@@ -316,7 +529,33 @@ class Entrega {
      * Determinau si el graf `g` (no dirigit) té cicles.
      */
     static boolean exercici1(int[][] g) {
-      throw new UnsupportedOperationException("pendent");
+      int n = g.length;
+            boolean[] visitat = new boolean[n];
+
+            for (int v = 0; v < n; v++) {
+                if (!visitat[v]) {
+                    if (dfsCicle(g, v, visitat, -1)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        static boolean dfsCicle(int[][] g, int actual, boolean[] visitat, int pare) {
+            visitat[actual] = true;
+
+            for (int veí : g[actual]) {
+                if (!visitat[veí]) {
+                    if (dfsCicle(g, veí, visitat, actual)) {
+                        return true;
+                    }
+                } else if (veí != pare) {
+                    //Ciclo detectado
+                    return true;
+                }
+            }
+            return false;
     }
 
     /*
@@ -324,8 +563,69 @@ class Entrega {
      * 10.
      */
     static boolean exercici2(int[][] g1, int[][] g2) {
-      throw new UnsupportedOperationException("pendent");
+        int n = g1.length;
+            if (g2.length != n) {
+                return false;
+            }
+
+            int[] perm = new int[n];
+            for (int i = 0; i < n; i++) {
+                perm[i] = i;
+            }
+
+            while (nextPerm(perm)){
+                if (sónIsomorfs(g1, g2, perm)) {
+                    return true;
+                }
+            } 
+
+            return false;
+        }
+
+        static boolean sónIsomorfs(int[][] g1, int[][] g2, int[] perm) {
+            int n = g1.length;
+            for (int i = 0; i < n; i++) {
+                java.util.Set<Integer> veïns1 = new java.util.HashSet<>();
+                for (int v : g1[i]) {
+                    veïns1.add(perm[v]);
+                }
+
+                java.util.Set<Integer> veïns2 = new java.util.HashSet<>();
+                for (int v : g2[perm[i]]) {
+                    veïns2.add(v);
+                }
+
+                if (!veïns1.equals(veïns2)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Genera la siguiente permutacion en orden lexicografico 
+        static boolean nextPerm(int[] a) {
+            int i = a.length - 2;
+            while (i >= 0 && a[i] >= a[i + 1]) {
+                i--;
+            }
+            if (i < 0) {
+                return false;
+            }
+            int j = a.length - 1;
+            while (a[j] <= a[i]) {
+                j--;
+            }
+            int tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
+            for (int l = i + 1, r = a.length - 1; l < r; l++, r--) {
+                tmp = a[l];
+                a[l] = a[r];
+                a[r] = tmp;
+            }
+            return true;
     }
+
 
     /*
      * Determinau si el graf `g` (no dirigit) és un arbre. Si ho és, retornau el seu recorregut en
@@ -335,7 +635,41 @@ class Entrega {
      * vèrtex.
      */
     static int[] exercici3(int[][] g, int r) {
-      throw new UnsupportedOperationException("pendent");
+      int n = g.length;
+      boolean[] visitat = new boolean[n];
+      java.util.List<Integer> postordre = new java.util.ArrayList<>();
+
+        if (!dfs(g, r, -1, visitat, postordre)) {
+             return null;
+         }
+         for (boolean v : visitat) {
+            if (!v) {
+                return null;
+               }
+         }
+
+        int[] resultat = new int[n];
+        for (int i = 0; i < n; i++) {
+             resultat[i] = postordre.get(i);
+           }
+          return resultat;
+        }
+
+       static boolean dfs(int[][] g, int u, int pare, boolean[] visitat, java.util.List<Integer> post) {
+           if (visitat[u]) {
+              return false;
+           }
+           visitat[u] = true;
+           for (int v : g[u]) {
+                if (v != pare) {
+                    if (!dfs(g, v, u, visitat, post)) {
+                        return false;
+                    }
+                }
+            }
+        //postorden
+        post.add(u);
+        return true;
     }
 
     /*
@@ -363,7 +697,42 @@ class Entrega {
      * Si és impossible, retornau -1.
      */
     static int exercici4(char[][] mapa) {
-      throw new UnsupportedOperationException("pendent");
+      int rows = mapa.length, cols = mapa[0].length;
+      int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+      java.util.Queue<int[]> q = new java.util.LinkedList<>();
+      boolean[][] vist = new boolean[rows][cols];
+     // Encontrar el origen
+        outer:
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                 if (mapa[i][j] == 'O') {
+                     q.add(new int[]{i, j, 0});
+                     vist[i][j] = true;
+                     break outer;
+                 }
+            }
+        }
+
+       while (!q.isEmpty()) {
+           int[] node = q.poll();
+           int x = node[0], y = node[1], d = node[2];
+
+            if (mapa[x][y] == 'D') {
+                return d;
+             }
+
+             for (int[] dir : dirs) {
+                int nx = x + dir[0], ny = y + dir[1];
+                 if (nx >= 0 && nx < rows && ny >= 0 && ny < cols
+                      && !vist[nx][ny] && mapa[nx][ny] != '#') {
+                        vist[nx][ny] = true;
+                        q.add(new int[]{nx, ny, d + 1});
+                }
+            }
+        }
+      //destino no accessible
+      return -1; 
+
     }
 
     /*
@@ -443,8 +812,45 @@ class Entrega {
      * Pista: https://en.wikipedia.org/wiki/Exponentiation_by_squaring
      */
     static int[] exercici1(String msg, int n, int e) {
-      throw new UnsupportedOperationException("pendent");
+          //Transforma el string msg en un array con cada letra en ASCII
+          byte[] bytes = msg.getBytes(); 
+          //Declaramos el array que contendra las letras encriptadas      
+          int[] encr = new int[bytes.length / 2]; 
+
+          for (int i = 0; i < encr.length; i++) {
+
+              int letra1 = bytes[i * 2];
+              int letra2 = bytes[i * 2 + 1];
+              int base = letra1 * 128 + letra2;
+              int result = expSquar(base, e, n);
+              encr[i] = result;
+          }
+          return encr;
+
+      }
+
+      public static int expSquar(int base, int exp, int mod) {
+          //Todo el codigo esta basado en el Exponentiation by squaring
+          int result = 1;
+          //Comprobamos que la base esté bien 
+          base = base % mod; 
+
+          while (exp > 0) {
+
+              if ((exp & 1) == 1) { 
+                  // Si el exp es impar, multiplicamos result por base
+                  result = (result * base) % mod;
+              }
+              // Elevamos base al cuadrado
+              base = (base * base) % mod; 
+              // Dividimos el exp por 2
+              exp = exp / 2;
+          }
+
+          return result;
     }
+
+}
 
     /*
      * Primer, desencriptau el missatge utilitzant xifrat RSA amb la clau pública donada. Després
@@ -461,7 +867,54 @@ class Entrega {
      * - n és major que 2¹⁴, i n² és menor que Integer.MAX_VALUE
      */
     static String exercici2(int[] m, int n, int e) {
-      throw new UnsupportedOperationException("pendent");
+       //Factorizar n (fuerza bruta)
+        boolean encontrado = false;
+        int p=0,q=0;
+      
+        for (int i = 2; i <= (int)Math.sqrt(n) && !encontrado; i++) {
+            if (n % i == 0) {
+                p = i;
+                q = n/i;
+                encontrado = true;
+            }     
+        }     
+        int phi = (p - 1) * (q - 1); //phi es φ(n)
+        int d = Inverso(e, phi);
+        // Desencriptar
+        //Creamos el array que tendrá las letras desmiptadas
+        byte[] decr = new byte[m.length * 2];
+      
+    for (int i = 0; i < m.length; i++) {
+        int decrypted = expSquar(m[i], d, n);
+        byte char1 = (byte) (decrypted / 128);
+        byte char2 = (byte) (decrypted % 128);
+        decr[i * 2] = char1;
+        decr[i * 2 + 1] = char2;
+    }
+    //Transforma el array desencriptado en un string como en el ejercico 1 pero al reves
+    return new String(decr);
+    }
+    public static int[] mcdExtendido(int a, int b) {
+        if (b == 0) {//Cuando la división no tiene resto (a%b=0)
+            return new int[]{a, 1, 0};
+        }
+        int[] vals = mcdExtendido(b, a % b);
+        int mcd = vals[0];
+        int x = vals[2];
+        int y = vals[1] - (a / b) * vals[2];
+        return new int[]{mcd, x, y};
+    }
+
+    
+    public static int Inverso(int e, int phi) {
+        int[] result = mcdExtendido(e, phi);//Calculamos el mcd y los coeficientes de x y
+        int mcd = result[0];
+        int x = result[1];
+        if (mcd != 1) { //En el caso de que no se pueda invertir
+            throw new ArithmeticException("No existe inversa modular: e y φ(n) no son coprimos");
+        }
+        return (x % phi + phi) % phi; //Esto sirve para que el inverso sea positivo
+
     }
 
     static void tests() {
